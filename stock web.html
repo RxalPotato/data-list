@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>data lsit</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      padding: 20px; 
+      max-width: 600px;
+      margin: auto;
+    }
+    .item {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .box { 
+      padding: 15px; 
+      border: 1px solid #aaa; 
+      margin-bottom: 20px; 
+      border-radius: 8px; 
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      cursor: pointer;
+      background: #00e1ff;
+      color: rgb(0, 0, 0);
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>stock listing</h2>
+
+<!-- Search Box -->
+<input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterItems()">
+
+<!-- Category Filter -->
+
+<select id="categorySelect" onchange="filterItems()">
+  <option value="all">All Categories</option>
+  <option valur="test">test</option>
+
+</select>
+
+<hr>
+
+<!-- Add New Category -->
+<div class="box">
+  <h3>Add Category</h3>
+  <input type="text" id="newCategoryInput" placeholder="New category name">
+  <button onclick="addCategory()">Add Category</button>
+</div>
+
+<!-- Add New Item -->
+<div class="box">
+  <h3>Add Item</h3>
+  <input type="text" id="newItemName" placeholder="Item name">
+  
+  <select id="newItemCategory">
+    
+  </select>
+
+  <button onclick="addItem()">Add Item</button>
+</div>
+
+<hr>
+
+<!-- Items List -->
+<div id="itemsList">
+  <div class="item" data-category="test">test</div>
+  
+</div>
+
+<script>
+
+// FILTER ITEMS
+function filterItems() {
+  let search = document.getElementById("searchInput").value.toLowerCase();
+  let category = document.getElementById("categorySelect").value;
+  let items = document.querySelectorAll(".item");
+
+  items.forEach(item => {
+    let text = item.textContent.toLowerCase();
+    let itemCategory = item.getAttribute("data-category");
+
+    let matchSearch = text.includes(search);
+    let matchCategory = (category === "all" || itemCategory === category);
+
+    item.style.display = (matchSearch && matchCategory) ? "block" : "none";
+  });
+}
+
+// ADD CATEGORY
+function addCategory() {
+  let newCat = document.getElementById("newCategoryInput").value.trim().toLowerCase();
+  if (newCat === "") return alert("Category name cannot be empty!");
+
+  // Add to category dropdowns
+  let categorySelect = document.getElementById("categorySelect");
+  let newItemCategory = document.getElementById("newItemCategory");
+
+  let option = document.createElement("option");
+  option.value = newCat;
+  option.textContent = capitalize(newCat);
+
+  categorySelect.appendChild(option);
+
+  let option2 = option.cloneNode(true);
+  newItemCategory.appendChild(option2);
+
+  document.getElementById("newCategoryInput").value = "";
+  alert("Category added!");
+}
+
+// ADD ITEM
+function addItem() {
+  let name = document.getElementById("newItemName").value.trim();
+  let category = document.getElementById("newItemCategory").value;
+
+  if (name === "") return alert("Item name cannot be empty!");
+
+  let itemDiv = document.createElement("div");
+  itemDiv.className = "item";
+  itemDiv.setAttribute("data-category", category);
+  itemDiv.textContent = name;
+
+  document.getElementById("itemsList").appendChild(itemDiv);
+
+  document.getElementById("newItemName").value = "";
+  alert("Item added!");
+}
+
+// CAPITALIZE TEXT
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+</script>
+
+</html>
+
+    <head>
+        &copy; data list
+    </footer>
+    </head>
+  </html>
+  </body>
